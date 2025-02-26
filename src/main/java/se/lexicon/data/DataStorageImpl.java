@@ -1,14 +1,17 @@
 package se.lexicon.data;
 
+import se.lexicon.model.Gender;
 import se.lexicon.model.Person;
 import se.lexicon.util.PersonGenerator;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 /**
@@ -26,6 +29,10 @@ public class DataStorageImpl implements DataStorage {
 
     private DataStorageImpl() {
         personList = PersonGenerator.getInstance().generate(1000);
+//        personList.add(new Person("Test"
+//                , "Testsson", LocalDate.of(1993, 12, 10)
+//                , Gender.MALE
+//        ));
     }
 
 
@@ -46,36 +53,38 @@ public class DataStorageImpl implements DataStorage {
 
     @Override
     public Person findOne(Predicate<Person> filter) {
-        // TODO: needs completion
-        return null;
+        return personList.stream()
+                .filter(filter)
+                .findFirst().orElse(null);
+
     }
 
     @Override
     public String findOneAndMapToString(Predicate<Person> filter, Function<Person, String> personToString) {
-        // TODO: needs completion
-        return null;
+        Person person = findOne(filter);
+        return (person != null) ? personToString.apply(person) : null;
     }
 
     @Override
     public List<String> findManyAndMapEachToString(Predicate<Person> filter, Function<Person, String> personToString) {
-        // TODO: needs completion
-        return null;
+        return findMany(filter).stream()
+                .map(personToString)
+                .collect(Collectors.toList());
+
     }
 
     @Override
     public void findAndDo(Predicate<Person> filter, Consumer<Person> consumer) {
-        // TODO: needs completion
+        findMany(filter).forEach(consumer);
     }
 
     @Override
     public List<Person> findAndSort(Comparator<Person> comparator) {
-        // TODO: needs completion
-        return null;
+        return personList.stream().sorted(comparator).collect(Collectors.toList());
     }
 
     @Override
     public List<Person> findAndSort(Predicate<Person> filter, Comparator<Person> comparator) {
-        // TODO: needs completion
-        return null;
+        return findMany(filter).stream().sorted(comparator).collect(Collectors.toList());
     }
 }
