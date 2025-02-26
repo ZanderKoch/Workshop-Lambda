@@ -47,3 +47,10 @@ interface MyFunctionalInterface {
 - **BinaryOperator<T>**
   - Purpose: Represents an operation on two inputs of type T that produces a result of type T.
   - Use Case: When you want to apply an operation to two inputs of the same type.
+
+### Third Party Libraries
+This project makes use of the following third-party libraries as direct dependencies:
+- JUnit Jupiter API
+
+See the [NOTICE](NOTICE) file for full copyright and licensing details for all
+of this project's dependencies
